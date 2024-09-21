@@ -1,0 +1,10 @@
+// No margin or padding for body, and nested p tags with a margin of 10px
+body {
+    margin: 0;
+    padding: 0;
+  
+    p {
+      margin: 10px;
+    }
+  }
+  
