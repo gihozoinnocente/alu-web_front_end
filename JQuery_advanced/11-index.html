@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+    <head>
+
+        <meta charset="utf-8" />
+        <title>Task 3</title>
+        <!-- <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script> -->
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+        <style>
+            
+        </style>
+    </head>
+
+    <body>
+
+
+        <script type="application/javascript">
+            $(function() {
+
+                function addPostRow(data) {
+                    var paragraph = $('<p></p>');
+                    var span = $('<span></span>').text(`Post created with id ${data.id}, title: ${data.title}, author: ${data.author}`);
+                    paragraph.append(span);
+                    $('body').append(paragraph);
+                };
+
+                function listPosts() {
+                    function handleSuccess(posts) {
+                        $.each(posts, function(index, post) {
+                            addPostRow(post);
+                        });
+                    };
+
+                    function handleError(posts) {
+                        console.log('Server Error');
+                    };
+
+                    $.get('http://localhost:3000/posts', handleSuccess)
+                        .fail(handleError);
+                };
+
+                function buildForm() {
+                    var form = $('<form></form>');
+                    var author = $(`
+                        <div>
+                            <label for="author">Author<label>
+                            <input id="author" />
+                        </div>
+                    `);
+                    var title = $(`
+                        <div>
+                            <label for="title">Title</label>
+                            <textarea id="title"></textarea>
+                        </div>
+                    `);
+                    var submit = $('<input type="submit"/>')
+
+                    form.on('submit', sendForm);
+
+                    // $labelAuthor.on('click', function () {
+                    //     $inputAuthor.focus();
+                    // });
+                    // $labelTitle.on('click', function () {
+                    //     $textareaTitle.focus();
+                    // });
+                    
+
+                    form.append(author);
+                    form.append(title);
+                    form.append(submit);
+                    $('body').append(form);
+                };
+
+                function sendForm(event) {
+                    event.preventDefault();
+                    $('<p>About to send the query to the API</p>').insertAfter('form');
+
+                    var data = JSON.stringify({
+                        title: $('#title').val(),
+                        author: $('#author').val()
+                    })
+
+                    $.post('http://localhost:3000/posts', data, function (response) {
+                        addPostRow(response);
+                    }).fail(function () {
+                        alert('Error sending the POST query');
+                    });
+                };
+
+                buildForm();
+                listPosts();
+            });
+        </script>
+    </body>
+
+</html>

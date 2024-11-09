@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f8f9fa;
+            color: #343a40;
+        }
+
+        h1, h2 {
+            color: #007bff;
+        }
+
+        #store ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #store li {
+            background-color: #ffffff;
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            margin: 5px 0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #store li:hover {
+            background-color: #e9ecef;
+        }
+
+        #cart p {
+            background-color: #ffffff;
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Available Items</h1>
+    <div id="store"></div>
+    <h2>Shopping Cart</h2>
+    <div id="cart"></div>
+    <script>
+        // Array of available items
+        const availableItems = ['Shampoo', 'Soap', 'Sponge', 'Water'];
+
+        // Check if session storage is enabled
+        if (typeof(Storage) === "undefined") {
+            alert("Sorry, your browser does not support Web storage. Try again with a better one");
+        } else {
+            createStore();
+            displayCart();
+        }
+
+        // Function to add item to cart
+        function addItemToCart(item) {
+            sessionStorage.setItem(item, 'true');
+        }
+
+        // Function to create store
+        function createStore() {
+            const storeDiv = document.getElementById('store');
+            const ul = document.createElement('ul');
+
+            availableItems.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                li.onclick = () => addItemToCart(item);
+                ul.appendChild(li);
+            });
+
+            storeDiv.appendChild(ul);
+        }
+
+        // Function to display cart
+        function displayCart() {
+            const cartDiv = document.getElementById('cart');
+            const cartItems = [];
+
+            for (let i = 0; i < sessionStorage.length; i++) {
+                const key = sessionStorage.key(i);
+                if (sessionStorage.getItem(key) === 'true') {
+                    cartItems.push(key);
+                }
+            }
+
+            if (cartItems.length > 0) {
+                const p = document.createElement('p');
+                p.textContent = `You previously had ${cartItems.length} items in your cart`;
+                cartDiv.appendChild(p);
+            }
+        }
+    </script>
+</body>
+</html>

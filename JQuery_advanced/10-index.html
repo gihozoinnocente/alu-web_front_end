@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+    <head>
+
+        <meta charset="utf-8" />
+        <title>Task 3</title>
+        <!-- <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script> -->
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+        <style>
+            
+        </style>
+    </head>
+
+    <body>
+
+
+        <script type="application/javascript">
+            $(function() {
+
+                function addPostRow(data) {
+                    var paragraph = $('<p></p>');
+                    var span = $('<span></span>').text(`Post created with id ${data.id}, title: ${data.title}, author: ${data.author}`);
+                    paragraph.append(span);
+                    $('body').append(paragraph);
+                };
+
+                function listPosts() {
+                    function handleSuccess(posts) {
+                        $.each(posts, function(index, post) {
+                            addPostRow(post);
+                        });
+                    };
+
+                    function handleError(posts) {
+                        console.log('Server Error');
+                    };
+
+                    $.get('http://localhost:3000/posts', handleSuccess)
+                        .fail(handleError);
+                };
+
+                listPosts();
+            });
+        </script>
+    </body>
+
+</html>

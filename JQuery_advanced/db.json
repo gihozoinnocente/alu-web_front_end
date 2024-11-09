@@ -1,0 +1,34 @@
+{
+  "posts": [
+    {
+      "title": "fd",
+      "author": "fffff",
+      "id": "2"
+    },
+    {
+      "title": "",
+      "author": "",
+      "id": "8"
+    },
+    {
+      "id": "9838",
+      "title": "",
+      "author": ""
+    },
+    {
+      "id": "7fa6",
+      "title": "",
+      "author": ""
+    }
+  ],
+  "comments": [
+    {
+      "id": "1",
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}

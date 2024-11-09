@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie Example</title>
+</head>
+<body>
+    <!-- Input fields -->
+    <input type="text" id="firstname" placeholder="Enter your first name">
+    <input type="text" id="email" placeholder="Enter your email">
+
+    <!-- Buttons -->
+    <button onclick="setCookies()">Log me in</button>
+    <button onclick="showCookies()">Show the cookies</button>
+
+    <!-- Script to handle cookie functions -->
+    <script>
+        function setCookies() {
+            // Get values from inputs
+            const firstname = document.getElementById('firstname').value;
+            const email = document.getElementById('email').value;
+
+            // Create a date object for the expiration
+            const date = new Date();
+            date.setTime(date.getTime() + (10 * 24 * 60 * 60 * 1000)); // 10 days from now
+            const expires = "expires=" + date.toUTCString();
+
+            // Set cookies with expiration
+            document.cookie = "firstname=" + encodeURIComponent(firstname) + "; " + expires + "; path=/";
+            document.cookie = "email=" + encodeURIComponent(email) + "; " + expires + "; path=/";
+        }
+
+        function showCookies() {
+            // Create a paragraph element
+            const p = document.createElement('p');
+
+            // Get cookies and format them
+            const cookies = document.cookie.split('; ').reduce((acc, cookie) => {
+                const [name, value] = cookie.split('=');
+                acc[name] = decodeURIComponent(value);
+                return acc;
+            }, {});
+
+            // Set the inner HTML of the paragraph
+            p.innerHTML = "Cookies: " + JSON.stringify(cookies);
+
+            // Append the paragraph to the bottom of the page
+            document.body.appendChild(p);
+        }
+    </script>
+</body>
+</html>
